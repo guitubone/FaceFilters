@@ -1,2 +1,3 @@
 cv2.so
 .DS_Store
+data/shape_predictor_68_face_landmarks.dat
