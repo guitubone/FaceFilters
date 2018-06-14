@@ -10,11 +10,11 @@ Seguem algumas imagens e seus resultados após a aplicação dos primeiros méto
 ![Neymar](images/neymar.jpg)
 ![Neymar Resultado](output/neymar_res.png)  
 
-![Neymar](images/twitch.png)
-![Neymar Resultado](output/twitch_res.png)  
+![Guys](images/guys.png)
+![Guys Resultado](output/guys_res.png)  
 
-![Neymar](images/group.jpg)
-![Neymar Resultado](output/group_res.png)  
+![Group](images/group.jpg)
+![Group Resultado](output/group_res.png)  
 
 # Próximos métodos
 A próxima etapa deste projeto é sobrepor os filtros na faces das pessoas nos lugares apropriados e com o tamanho correto. Para tal, terão que ser feitos dois tipos de operações nos filtros: escala e rotação.  
