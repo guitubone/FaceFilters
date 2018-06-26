@@ -57,7 +57,7 @@ class Filter:
         self.w_ratio = w_ratio
         self.h_ratio = h_ratio
 
-    def put(self, img, landmarks, w, h):
+    def put(self, img, landmarks, w, h, x, y):
         mask_img = cv2.imread(self.file_path, -1)
 
         ang = get_ang(landmarks)
@@ -70,7 +70,7 @@ class Filter:
         ori_mask_inv = cv2.bitwise_not(ori_mask)
         mask_img = mask_img[:,:,0:3]
 
-        center = self.get_center(landmarks)
+        center = self.get_center(landmarks, x, y)
 
         x1 = int(center.x-(self.w_ratio*w/2.0))
         x2 = int(center.x+(self.w_ratio*w/2.0))
@@ -138,14 +138,19 @@ RIGHT_EYE_POINT = 45
 CENTER_MOUTH_POINT = 63
 UNDER_NOSE_POINT = 32
 
-def get_center_mustache(landmarks):
+def get_center_mustache(landmarks, x, y):
     mouth_point = Point(landmarks[CENTER_MOUTH_POINT, 0], landmarks[CENTER_MOUTH_POINT, 1])
     nose_point = Point(landmarks[UNDER_NOSE_POINT, 0], landmarks[UNDER_NOSE_POINT, 1])
-    center = mouth_point + ((nose_point - mouth_point)*(1/3))   # Altura do bigode
+    center = mouth_point + ((nose_point - mouth_point)*(1.0/3.0))   # Altura do bigode
     return center
 Mustache = Filter('filters/mustache.png', get_center_mustache, 0.7, 0.2)
 
-FlowerCrown = Filter('filters/flower_crown.png', get_center_mustache, 0.7, 0.2)
+def get_center_flower_crown(landmarks, x, y):
+    point_left = Point(landmarks[LEFT_EYE_POINT, 0], landmarks[LEFT_EYE_POINT, 1])
+    point_right = Point(landmarks[RIGHT_EYE_POINT, 0], landmarks[RIGHT_EYE_POINT, 1])
+    center = point_left + ((point_right - point_left)*(1.0/2.0))   # Altura do bigode
+    return Point(center.x, y)
+FlowerCrown = Filter('filters/flower_crown.png', get_center_flower_crown, 1.2, 0.6)
 
 # Carregando classificador de faces e landmarks
 face_cascade = cv2.CascadeClassifier('data/lbpcascade_frontalface.xml')
@@ -167,8 +172,8 @@ for (x, y, w, h) in faces:
     landmarks = np.matrix([[p.x, p.y] for p in predictor(ori_img, dlib_rect).parts()])
    
     put_debug(ori_img, landmarks)
-    Mustache.put(ori_img, landmarks, w, h)
-    FlowerCrown.put(ori_img, landmarks, w, h)
+    Mustache.put(ori_img, landmarks, w, h, x, y)
+    FlowerCrown.put(ori_img, landmarks, w, h, x, y)
 
 # Mostrando a imagem
 cv2.imshow('image', ori_img)
