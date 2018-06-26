@@ -28,6 +28,9 @@ class Point:
     def len(self):
         return np.sqrt(self.x*self.x + self.y*self.y)
 
+    def tuple(self):
+        return int(self.x), int(self.y)
+
     # Projecao do vetor self em other
     def relative_proj(self, other):
         return dot(self,other)/(other.len() * other.len())
@@ -46,6 +49,9 @@ class Point:
 def dot(a, b):
     return a.x*b.x + a.y*b.y
 
+def draw_line(a, b):
+    cv2.line(ori_img, a.tuple(), b.tuple(), color=(0, 0, 255), thickness=2)
+
 # Definição dos pontos referentes a cada parte do rosto
 NOSE_POINTS = list(range(27, 36))  
 RIGHT_EYE_POINTS = list(range(36, 42))  
@@ -61,7 +67,7 @@ face_cascade = cv2.CascadeClassifier('data/lbpcascade_frontalface.xml')
 predictor = dlib.shape_predictor('data/shape_predictor_68_face_landmarks.dat')
 
 # Leitura da imagem
-ori_img = cv2.imread('images/neymar.jpg')
+ori_img = cv2.imread('images/guys.png')
 
 # Transformando a imagem para escala de cinza
 gray = cv2.cvtColor(ori_img, cv2.COLOR_BGR2GRAY)
@@ -77,9 +83,12 @@ for (x, y, w, h) in faces:
     landmarks_display = landmarks[RIGHT_EYE_POINTS + LEFT_EYE_POINTS + NOSE_POINTS + MOUTH_INNER_POINTS]
 
     # Reta que liga os 2 olhos
-    point_left = (landmarks[LEFT_EYE_POINT, 0], landmarks[LEFT_EYE_POINT, 1])
-    point_right = (landmarks[RIGHT_EYE_POINT, 0], landmarks[RIGHT_EYE_POINT, 1])
-    cv2.line(ori_img, point_left, point_right, color=(0, 0, 255), thickness=2)
+    point_left = Point(landmarks[LEFT_EYE_POINT, 0], landmarks[LEFT_EYE_POINT, 1])
+    point_right = Point(landmarks[RIGHT_EYE_POINT, 0], landmarks[RIGHT_EYE_POINT, 1])
+    point_mouth = Point(landmarks[CENTER_MOUTH_POINT, 0], landmarks[CENTER_MOUTH_POINT, 1])
+    point_inter = point_mouth.intersect_line(point_left, point_right)
+    draw_line(point_left, point_right)
+    draw_line(point_mouth, point_inter)
 
     for idx, point in enumerate(landmarks_display):
         pos = (point[0, 0], point[0, 1])
