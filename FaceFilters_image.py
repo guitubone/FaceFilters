@@ -145,6 +145,8 @@ def get_center_mustache(landmarks):
     return center
 Mustache = Filter('filters/mustache.png', get_center_mustache, 0.7, 0.2)
 
+FlowerCrown = Filter('filters/flower_crown.png', get_center_mustache, 0.7, 0.2)
+
 # Carregando classificador de faces e landmarks
 face_cascade = cv2.CascadeClassifier('data/lbpcascade_frontalface.xml')
 predictor = dlib.shape_predictor('data/shape_predictor_68_face_landmarks.dat')
@@ -166,6 +168,7 @@ for (x, y, w, h) in faces:
    
     put_debug(ori_img, landmarks)
     Mustache.put(ori_img, landmarks, w, h)
+    FlowerCrown.put(ori_img, landmarks, w, h)
 
 # Mostrando a imagem
 cv2.imshow('image', ori_img)
