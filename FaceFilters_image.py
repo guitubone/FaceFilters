@@ -49,8 +49,8 @@ class Point:
 def dot(a, b):
     return a.x*b.x + a.y*b.y
 
-def draw_line(a, b):
-    cv2.line(ori_img, a.tuple(), b.tuple(), color=(0, 0, 255), thickness=2)
+def draw_line(img, a, b):
+    cv2.line(img, a.tuple(), b.tuple(), color=(0, 0, 255), thickness=2)
 
 # Definição dos pontos referentes a cada parte do rosto
 NOSE_POINTS = list(range(27, 36))  
@@ -87,8 +87,8 @@ for (x, y, w, h) in faces:
     point_right = Point(landmarks[RIGHT_EYE_POINT, 0], landmarks[RIGHT_EYE_POINT, 1])
     point_mouth = Point(landmarks[CENTER_MOUTH_POINT, 0], landmarks[CENTER_MOUTH_POINT, 1])
     point_inter = point_mouth.intersect_line(point_left, point_right)
-    draw_line(point_left, point_right)
-    draw_line(point_mouth, point_inter)
+    draw_line(ori_img, point_left, point_right)
+    draw_line(ori_img, point_mouth, point_inter)
 
     for idx, point in enumerate(landmarks_display):
         pos = (point[0, 0], point[0, 1])
