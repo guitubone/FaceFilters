@@ -113,12 +113,12 @@ def put_debug(img, landmarks):
     point_right = Point(landmarks[RIGHT_EYE_POINT, 0], landmarks[RIGHT_EYE_POINT, 1])
     point_mouth = Point(landmarks[CENTER_MOUTH_POINT, 0], landmarks[CENTER_MOUTH_POINT, 1])
     point_inter = point_mouth.intersect_line(point_left, point_right)
-#    draw_line(img, point_left, point_right)
-#    draw_line(img, point_mouth, point_inter)
+    draw_line(img, point_left, point_right)
+    draw_line(img, point_mouth, point_inter)
 
-#    for idx, point in enumerate(landmarks_display):
-#        pos = (point[0, 0], point[0, 1])
-#        cv2.circle(img, pos, 2, color=(0, 255, 255), thickness=-1)
+    for idx, point in enumerate(landmarks_display):
+        pos = (point[0, 0], point[0, 1])
+        cv2.circle(img, pos, 2, color=(0, 255, 255), thickness=-1)
 
 def fix(p, lim):
     if p < 0:
@@ -137,6 +137,9 @@ LEFT_EYE_POINT = 36
 RIGHT_EYE_POINT = 45
 CENTER_MOUTH_POINT = 63
 UNDER_NOSE_POINT = 32
+NOSE_POINT = 30
+UP_TONGUE_POINT = 62
+BOT_TONGUE_POINT = 66
 
 def get_center_mustache(landmarks, x, y):
     mouth_point = Point(landmarks[CENTER_MOUTH_POINT, 0], landmarks[CENTER_MOUTH_POINT, 1])
@@ -152,12 +155,22 @@ def get_center_flower_crown(landmarks, x, y):
     return Point(center.x, y)
 FlowerCrown = Filter('filters/flower_crown.png', get_center_flower_crown, 1.2, 0.6)
 
+def get_center_dog_nose(landmarks, x, y):
+    return Point(landmarks[NOSE_POINT, 0], landmarks[NOSE_POINT, 1])
+DogNose = Filter('filters/dog_nose.png', get_center_dog_nose, 0.4, 0.3)
+
+# TODO
+def get_center_dog_tongue(landmarks, x, y):
+    bot = Point(landmarks[BOT_TONGUE_POINT, 0], landmarks[BOT_TONGUE_POINT, 1])
+    return bot
+DogTongue = Filter('filters/dog_tongue.png', get_center_dog_tongue, 0.4, 0.3)
+
 # Carregando classificador de faces e landmarks
 face_cascade = cv2.CascadeClassifier('data/lbpcascade_frontalface.xml')
 predictor = dlib.shape_predictor('data/shape_predictor_68_face_landmarks.dat')
 
 # Leitura da imagem
-ori_img = cv2.imread('images/group_2.jpg')
+ori_img = cv2.imread('images/suits.jpeg')
 
 # Transformando a imagem para escala de cinza
 gray = cv2.cvtColor(ori_img, cv2.COLOR_BGR2GRAY)
@@ -171,9 +184,11 @@ for (x, y, w, h) in faces:
     dlib_rect = dlib.rectangle(int(x), int(y), int(x + w), int(y + h))
     landmarks = np.matrix([[p.x, p.y] for p in predictor(ori_img, dlib_rect).parts()])
    
-    put_debug(ori_img, landmarks)
-    Mustache.put(ori_img, landmarks, w, h, x, y)
-    FlowerCrown.put(ori_img, landmarks, w, h, x, y)
+#    put_debug(ori_img, landmarks)
+#    Mustache.put(ori_img, landmarks, w, h, x, y)
+#    FlowerCrown.put(ori_img, landmarks, w, h, x, y)
+    DogNose.put(ori_img, landmarks, w, h, x, y)
+    DogTongue.put(ori_img, landmarks, w, h, x, y)
 
 # Mostrando a imagem
 cv2.imshow('image', ori_img)
