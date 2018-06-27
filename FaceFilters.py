@@ -86,6 +86,9 @@ def fix(p, lim):
 def put_blur(img, points, x, y, w, h):
 	x1, y1, x2, y2 = x, y, x+w, y+h
 
+	highest_point = np.min(points[EYEBROWS_POINTS, 1])
+	points[EYEBROWS_POINTS, 1] = y + (points[EYEBROWS_POINTS, 1] - highest_point)
+	
 	mask = np.zeros((img.shape[0], img.shape[1], 1), dtype=np.uint8)
 	hull = cv2.convexHull(points)
 	cv2.fillConvexPoly(mask, np.int32(hull), (255, 255, 255))
@@ -105,6 +108,7 @@ NOSE_POINTS = list(range(27, 36))
 RIGHT_EYE_POINTS = list(range(36, 42))  
 LEFT_EYE_POINTS = list(range(42, 48))  
 MOUTH_INNER_POINTS = list(range(61, 68))  
+EYEBROWS_POINTS = list(range(17, 28))  
 
 LEFT_EYE_POINT = 36
 RIGHT_EYE_POINT = 45
