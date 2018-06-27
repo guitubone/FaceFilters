@@ -105,7 +105,8 @@ def get_ang(landmarks):
 def draw_line(img, a, b):
     cv2.line(img, a.tuple(), b.tuple(), color=(0, 0, 255), thickness=2)
 
-def put_debug(img, landmarks):
+def put_debug(img, landmarks, x, y, w, h):
+    cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), 2)
     landmarks_display = landmarks[RIGHT_EYE_POINTS + LEFT_EYE_POINTS + NOSE_POINTS + MOUTH_INNER_POINTS]
 
     # Reta que liga os 2 olhos
@@ -148,6 +149,8 @@ UNDER_NOSE_POINT = 32
 NOSE_POINT = 30
 UP_TONGUE_POINT = 62
 BOT_TONGUE_POINT = 66
+LEFT_EAR_POINT = 17
+RIGHT_EAR_POINT = 26
 
 def get_center_mustache(landmarks, x, y):
     mouth_point = Point(landmarks[CENTER_MOUTH_POINT, 0], landmarks[CENTER_MOUTH_POINT, 1])
@@ -169,9 +172,31 @@ DogNose = Filter('filters/dog_nose.png', get_center_dog_nose, 0.4, 0.3)
 
 # TODO
 def get_center_dog_tongue(landmarks, x, y):
-    bot = Point(landmarks[BOT_TONGUE_POINT, 0], landmarks[BOT_TONGUE_POINT, 1])
-    return bot
+    point_left = Point(landmarks[LEFT_EYE_POINT, 0], landmarks[LEFT_EYE_POINT, 1])
+    point_right = Point(landmarks[RIGHT_EYE_POINT, 0], landmarks[RIGHT_EYE_POINT, 1])
+    point_mouth = Point(landmarks[CENTER_MOUTH_POINT, 0], landmarks[CENTER_MOUTH_POINT, 1])
+    point_inter = point_mouth.intersect_line(point_left, point_right)
+    p = Point(landmarks[BOT_TONGUE_POINT, 0], landmarks[BOT_TONGUE_POINT, 1])
+    return p + (point_mouth - point_inter)*0.1
 DogTongue = Filter('filters/dog_tongue.png', get_center_dog_tongue, 0.4, 0.3)
+
+def get_center_dog_left_ear(landmarks, x, y):
+    point_left = Point(landmarks[LEFT_EYE_POINT, 0], landmarks[LEFT_EYE_POINT, 1])
+    point_right = Point(landmarks[RIGHT_EYE_POINT, 0], landmarks[RIGHT_EYE_POINT, 1])
+    point_mouth = Point(landmarks[CENTER_MOUTH_POINT, 0], landmarks[CENTER_MOUTH_POINT, 1])
+    point_inter = point_mouth.intersect_line(point_left, point_right)
+    p = Point(landmarks[LEFT_EAR_POINT,0], landmarks[LEFT_EAR_POINT, 1])
+    return p + (point_inter - point_mouth)*1.0
+DogLeftEar = Filter('filters/dog_left_ear.png', get_center_dog_left_ear, 0.4, 0.3)
+
+def get_center_dog_right_ear(landmarks, x, y):
+    point_left = Point(landmarks[LEFT_EYE_POINT, 0], landmarks[LEFT_EYE_POINT, 1])
+    point_right = Point(landmarks[RIGHT_EYE_POINT, 0], landmarks[RIGHT_EYE_POINT, 1])
+    point_mouth = Point(landmarks[CENTER_MOUTH_POINT, 0], landmarks[CENTER_MOUTH_POINT, 1])
+    point_inter = point_mouth.intersect_line(point_left, point_right)
+    p = Point(landmarks[RIGHT_EAR_POINT,0], landmarks[RIGHT_EAR_POINT, 1])
+    return p + (point_inter - point_mouth)*1.0
+DogRightEar = Filter('filters/dog_right_ear.png', get_center_dog_right_ear, 0.4, 0.3)
 
 # Carregando classificador de faces e landmarks
 face_cascade = cv2.CascadeClassifier('data/lbpcascade_frontalface.xml')
@@ -188,17 +213,18 @@ faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5)
 
 # Para cada face, coloca um retângulo em volta e identifica olhos, nariz e boca
 for (x, y, w, h) in faces:
-#    cv2.rectangle(ori_img, (x, y), (x+w, y+h), (0, 255, 0), 2)
     dlib_rect = dlib.rectangle(int(x), int(y), int(x + w), int(y + h))
     landmarks = np.matrix([[p.x, p.y] for p in predictor(ori_img, dlib_rect).parts()])
 
-    put_blur(ori_img, [int(x), int(y), int(x+w), int(y+h)])
+#    put_blur(ori_img, [int(x), int(y), int(x+w), int(y+h)])
 
-#    put_debug(ori_img, landmarks)
+#    put_debug(ori_img, landmarks, x, y, w, h)
 #    Mustache.put(ori_img, landmarks, w, h, x, y)
 #    FlowerCrown.put(ori_img, landmarks, w, h, x, y)
-#    DogNose.put(ori_img, landmarks, w, h, x, y)
-#    DogTongue.put(ori_img, landmarks, w, h, x, y)
+    DogNose.put(ori_img, landmarks, w, h, x, y)
+    DogTongue.put(ori_img, landmarks, w, h, x, y)
+    DogLeftEar.put(ori_img, landmarks, w, h, x, y)
+    DogRightEar.put(ori_img, landmarks, w, h, x, y)
 
 # Mostrando a imagem
 cv2.imshow('image', ori_img)
