@@ -127,6 +127,14 @@ def fix(p, lim):
         return lim-1
     return p
 
+def put_blur(img, rect):
+	x1, y1, x2, y2 = rect
+
+	img_rect = img[y1:y2, x1:x2]
+	img_rect = cv2.blur(img_rect, (25, 25))
+
+	img[y1:y2, x1:x2] = img_rect
+
 # Definição dos pontos referentes a cada parte do rosto
 NOSE_POINTS = list(range(27, 36))  
 RIGHT_EYE_POINTS = list(range(36, 42))  
@@ -183,12 +191,14 @@ for (x, y, w, h) in faces:
 #    cv2.rectangle(ori_img, (x, y), (x+w, y+h), (0, 255, 0), 2)
     dlib_rect = dlib.rectangle(int(x), int(y), int(x + w), int(y + h))
     landmarks = np.matrix([[p.x, p.y] for p in predictor(ori_img, dlib_rect).parts()])
-   
+
+    put_blur(ori_img, [int(x), int(y), int(x+w), int(y+h)])
+
 #    put_debug(ori_img, landmarks)
 #    Mustache.put(ori_img, landmarks, w, h, x, y)
 #    FlowerCrown.put(ori_img, landmarks, w, h, x, y)
-    DogNose.put(ori_img, landmarks, w, h, x, y)
-    DogTongue.put(ori_img, landmarks, w, h, x, y)
+#    DogNose.put(ori_img, landmarks, w, h, x, y)
+#    DogTongue.put(ori_img, landmarks, w, h, x, y)
 
 # Mostrando a imagem
 cv2.imshow('image', ori_img)

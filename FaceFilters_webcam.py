@@ -52,8 +52,7 @@ def dot(a, b):
 def draw_line(img, a, b):
     cv2.line(img, a.tuple(), b.tuple(), color=(0, 0, 255), thickness=2)
 
-def put_mask(img, mid_eye, dist):
-	mask_img = cv2.imread('filters/eye_mask.png', -1)
+def put_mask(img, mid_eye, dist, mask_img):
 	ori_mask = mask_img[:,:,3]
 	ori_mask_inv = cv2.bitwise_not(ori_mask)
 	mask_img = mask_img[:,:,0:3]
@@ -108,6 +107,7 @@ while(True):
 
 	# Detecção das faces
     faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5)
+    mask_img = cv2.imread('filters/eye_mask.png', -1)
 
         # Para cada face, coloca um retângulo em volta e identifica olhos, nariz e boca
     for (x, y, w, h) in faces:
@@ -127,7 +127,7 @@ while(True):
             pos = (point[0, 0], point[0, 1])
             #cv2.circle(frame, pos, 2, color=(0, 255, 255), thickness=-1)
 
-            put_mask(frame, point_inter, np.sqrt((point_left.x-point_right.x)**2 + (point_left.y-point_right.y)**2))
+            put_mask(frame, point_inter, np.sqrt((point_left.x-point_right.x)**2 + (point_left.y-point_right.y)**2), mask_img)
 
     # Mostrando frame
     cv2.imshow('frame',frame)
