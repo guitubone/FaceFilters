@@ -83,8 +83,8 @@ def fix(p, lim):
         return lim-1
     return p
 
-def put_blur(img, rect, points):
-	x1, y1, x2, y2 = rect
+def put_blur(img, points, x, y, w, h):
+	x1, y1, x2, y2 = x, y, x+w, y+h
 
 	mask = np.zeros((img.shape[0], img.shape[1], 1), dtype=np.uint8)
 	hull = cv2.convexHull(points)

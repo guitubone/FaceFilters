@@ -23,8 +23,6 @@ for (x, y, w, h) in faces:
     dlib_rect = dlib.rectangle(int(x), int(y), int(x + w), int(y + h))
     landmarks = np.matrix([[p.x, p.y] for p in predictor(ori_img, dlib_rect).parts()])
 
-#    FF.put_blur(ori_img, [int(x), int(y), int(x+w), int(y+h)])
-
 #    FF.put_debug(ori_img, landmarks, x, y, w, h)
 #    FF.Mustache.put(ori_img, landmarks, w, h, x, y)
 #    FF.FlowerCrown.put(ori_img, landmarks, w, h, x, y)
@@ -33,7 +31,7 @@ for (x, y, w, h) in faces:
     FF.DogLeftEar.put(ori_img, landmarks, w, h, x, y)
     FF.DogRightEar.put(ori_img, landmarks, w, h, x, y)
 
-    ori_img = FF.put_blur(ori_img, [int(x), int(y), int(x+w), int(y+h)], landmarks)
+    ori_img = FF.put_blur(ori_img, landmarks, x, y, w, y)
 
 # Mostrando a imagem
 cv2.imshow('image', ori_img)
