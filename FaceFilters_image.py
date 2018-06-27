@@ -147,7 +147,7 @@ RIGHT_EYE_POINT = 45
 CENTER_MOUTH_POINT = 63
 UNDER_NOSE_POINT = 32
 NOSE_POINT = 30
-UP_TONGUE_POINT = 62
+TOP_TONGUE_POINT = 62
 BOT_TONGUE_POINT = 66
 LEFT_EAR_POINT = 17
 RIGHT_EAR_POINT = 26
@@ -170,15 +170,11 @@ def get_center_dog_nose(landmarks, x, y):
     return Point(landmarks[NOSE_POINT, 0], landmarks[NOSE_POINT, 1])
 DogNose = Filter('filters/dog_nose.png', get_center_dog_nose, 0.4, 0.3)
 
-# TODO
 def get_center_dog_tongue(landmarks, x, y):
-    point_left = Point(landmarks[LEFT_EYE_POINT, 0], landmarks[LEFT_EYE_POINT, 1])
-    point_right = Point(landmarks[RIGHT_EYE_POINT, 0], landmarks[RIGHT_EYE_POINT, 1])
-    point_mouth = Point(landmarks[CENTER_MOUTH_POINT, 0], landmarks[CENTER_MOUTH_POINT, 1])
-    point_inter = point_mouth.intersect_line(point_left, point_right)
-    p = Point(landmarks[BOT_TONGUE_POINT, 0], landmarks[BOT_TONGUE_POINT, 1])
-    return p + (point_mouth - point_inter)*0.1
-DogTongue = Filter('filters/dog_tongue.png', get_center_dog_tongue, 0.4, 0.3)
+    point_top = Point(landmarks[TOP_TONGUE_POINT, 0], landmarks[TOP_TONGUE_POINT, 1])
+    point_bot = Point(landmarks[BOT_TONGUE_POINT, 0], landmarks[BOT_TONGUE_POINT, 1])
+    return point_bot + (point_top - point_bot)*0.5
+DogTongue = Filter('filters/dog_tongue_2.png', get_center_dog_tongue, 0.4, 0.6)
 
 def get_center_dog_left_ear(landmarks, x, y):
     point_left = Point(landmarks[LEFT_EYE_POINT, 0], landmarks[LEFT_EYE_POINT, 1])
@@ -203,7 +199,7 @@ face_cascade = cv2.CascadeClassifier('data/lbpcascade_frontalface.xml')
 predictor = dlib.shape_predictor('data/shape_predictor_68_face_landmarks.dat')
 
 # Leitura da imagem
-ori_img = cv2.imread('images/suits.jpeg')
+ori_img = cv2.imread('images/group_2.jpg')
 
 # Transformando a imagem para escala de cinza
 gray = cv2.cvtColor(ori_img, cv2.COLOR_BGR2GRAY)
