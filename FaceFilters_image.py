@@ -33,6 +33,8 @@ for (x, y, w, h) in faces:
     FF.DogLeftEar.put(ori_img, landmarks, w, h, x, y)
     FF.DogRightEar.put(ori_img, landmarks, w, h, x, y)
 
+    ori_img = FF.put_blur(ori_img, [int(x), int(y), int(x+w), int(y+h)], landmarks)
+
 # Mostrando a imagem
 cv2.imshow('image', ori_img)
 cv2.waitKey(0)

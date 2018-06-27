@@ -83,13 +83,22 @@ def fix(p, lim):
         return lim-1
     return p
 
-def put_blur(img, rect):
+def put_blur(img, rect, points):
 	x1, y1, x2, y2 = rect
 
-	img_rect = img[y1:y2, x1:x2]
-	img_rect = cv2.blur(img_rect, (25, 25))
+	mask = np.zeros((img.shape[0], img.shape[1], 1), dtype=np.uint8)
+	hull = cv2.convexHull(points)
+	cv2.fillConvexPoly(mask, np.int32(hull), (255, 255, 255))
 
-	img[y1:y2, x1:x2] = img_rect
+	aux_img = np.copy(img)
+	aux_img = cv2.blur(aux_img, (25, 25))
+
+	mask_inv = cv2.bitwise_not(mask)
+	bg = cv2.bitwise_and(img, img, mask = mask_inv)
+	fg = cv2.bitwise_and(aux_img, aux_img, mask = mask)
+	img = cv2.add(bg, fg)
+
+	return img
 
 # Definição dos pontos referentes a cada parte do rosto
 NOSE_POINTS = list(range(27, 36))  
