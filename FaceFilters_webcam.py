@@ -29,12 +29,13 @@ while(True):
 #        FF.put_debug(frame, landmarks, x, y, w, h)
 #        FF.Mustache.put(frame, landmarks, w, h, x, y)
 #        FF.FlowerCrown.put(frame, landmarks, w, h, x, y#)
-#        FF.DogNose.put(frame, landmarks, w, h, x, y)
-#        FF.DogTongue.put(frame, landmarks, w, h, x, y)
-#        FF.DogLeftEar.put(frame, landmarks, w, h, x, y)
-#        FF.DogRightEar.put(frame, landmarks, w, h, x, y)
+        FF.DogNose.put(frame, landmarks, w, h, x, y)
+        if(FF.mouth_open(landmarks, w, h)):
+            FF.DogTongue.put(frame, landmarks, w, h, x, y)
+        FF.DogLeftEar.put(frame, landmarks, w, h, x, y)
+        FF.DogRightEar.put(frame, landmarks, w, h, x, y)
 
-        frame = FF.put_blur(frame, landmarks, x, y, w, h)
+#        frame = FF.put_blur(frame, landmarks, x, y, w, h)
 
     # Mostrando frame
     cv2.imshow('frame',frame)

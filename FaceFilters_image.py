@@ -10,7 +10,7 @@ face_cascade = cv2.CascadeClassifier('data/lbpcascade_frontalface.xml')
 predictor = dlib.shape_predictor('data/shape_predictor_68_face_landmarks.dat')
 
 # Leitura da imagem
-ori_img = cv2.imread('images/neymar.jpg')
+ori_img = cv2.imread('images/guys.png')
 
 # Transformando a imagem para escala de cinza
 gray = cv2.cvtColor(ori_img, cv2.COLOR_BGR2GRAY)
@@ -27,11 +27,12 @@ for (x, y, w, h) in faces:
 #    FF.Mustache.put(ori_img, landmarks, w, h, x, y)
 #    FF.FlowerCrown.put(ori_img, landmarks, w, h, x, y)
     FF.DogNose.put(ori_img, landmarks, w, h, x, y)
-    FF.DogTongue.put(ori_img, landmarks, w, h, x, y)
+    if(FF.mouth_open(landmarks, w, h)):
+        FF.DogTongue.put(ori_img, landmarks, w, h, x, y)
     FF.DogLeftEar.put(ori_img, landmarks, w, h, x, y)
     FF.DogRightEar.put(ori_img, landmarks, w, h, x, y)
 
-    ori_img = FF.put_blur(ori_img, landmarks, x, y, w, y)
+#    ori_img = FF.put_blur(ori_img, landmarks, x, y, w, y)
 
 # Mostrando a imagem
 cv2.imshow('image', ori_img)

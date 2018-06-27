@@ -107,6 +107,11 @@ def put_blur(img, points, x, y, w, h):
 
 	return img
 
+def mouth_open(landmarks, w, h):
+    point_top = Point(landmarks[TOP_TONGUE_POINT, 0], landmarks[TOP_TONGUE_POINT, 1])
+    point_bot = Point(landmarks[BOT_TONGUE_POINT, 0], landmarks[BOT_TONGUE_POINT, 1])
+    return ((point_top - point_bot).len() > max(w, h) * 0.04)
+
 # Definição dos pontos referentes a cada parte do rosto
 NOSE_POINTS = list(range(27, 36))  
 RIGHT_EYE_POINTS = list(range(36, 42))  
