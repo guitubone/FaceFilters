@@ -26,8 +26,6 @@ while(True):
         dlib_rect = dlib.rectangle(int(x), int(y), int(x + w), int(y + h))
         landmarks = np.matrix([[p.x, p.y] for p in predictor(frame, dlib_rect).parts()])
 
-#        FF.put_blur(frame, [int(x), int(y), int(x+w), int(y+h)])
-
 #        FF.put_debug(frame, landmarks, x, y, w, h)
 #        FF.Mustache.put(frame, landmarks, w, h, x, y)
 #        FF.FlowerCrown.put(frame, landmarks, w, h, x, y#)
