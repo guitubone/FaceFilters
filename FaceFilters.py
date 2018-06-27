@@ -38,6 +38,9 @@ class Filter:
         y1 = fix(y1, img.shape[0])
         y2 = fix(y2, img.shape[0])
 
+        if(x1 == x2 or y1 == y2):
+            return
+
         mask_overlay = cv2.resize(mask_img, (x2-x1, y2-y1), interpolation = cv2.INTER_AREA)
         mask = cv2.resize(ori_mask, (x2-x1, y2-y1), interpolation = cv2.INTER_AREA)
         mask_inv = cv2.resize(ori_mask_inv, (x2-x1, y2-y1), interpolation = cv2.INTER_AREA)
