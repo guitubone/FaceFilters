@@ -63,7 +63,6 @@ while(True):
     # Mostrando frame
     cv2.imshow('frame',frame)
     key = cv2.waitKeyEx(1)
-    print(key)
     if key == ord('q') or key == ord('Q'):
         break
     elif key in LEFT_ARROW:
