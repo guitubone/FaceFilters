@@ -9,7 +9,7 @@ LEFT_ARROW = 65361
 UP_ARROW = 65362
 DOWN_ARROW = 65364
 RIGHT_ARROW = 65363
-NUM_FILTES = 5
+NUM_FILTES = 7
 
 # Carregando classificador de faces e landmarks
 face_cascade = cv2.CascadeClassifier('data/lbpcascade_frontalface.xml')
@@ -18,7 +18,7 @@ predictor = dlib.shape_predictor('data/shape_predictor_68_face_landmarks.dat')
 id = 0
 while(True):
     # Leitura da imagem
-	ori_img = cv2.imread('images/guys.png')
+	ori_img = cv2.imread('images/group_2.jpg')
 
     # Transformando a imagem para escala de cinza
 	gray = cv2.cvtColor(ori_img, cv2.COLOR_BGR2GRAY)
@@ -47,6 +47,14 @@ while(True):
 			FF.DogRightEar.put(ori_img, landmarks, w, h, x, y)
 		elif id == 4:
 			FF.Glasses.put(ori_img, landmarks, w, h, x, y)
+		elif id == 5:
+			FF.Glasses.put(ori_img, landmarks, w, h, x, y)
+			FF.Mustache.put(ori_img, landmarks, w, h, x, y)
+		elif id == 6:
+			FF.Glasses.put(ori_img, landmarks, w, h, x, y)
+			if(FF.mouth_open(landmarks, w, h)):
+				FF.DogTongue.put(ori_img, landmarks, w, h, x, y)
+			FF.Mustache.put(ori_img, landmarks, w, h, x, y)
 
 	# Mostrando a imagem
 	cv2.imshow('image', ori_img)

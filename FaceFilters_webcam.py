@@ -9,7 +9,7 @@ LEFT_ARROW = 65361
 UP_ARROW = 65362
 DOWN_ARROW = 65364
 RIGHT_ARROW = 65363
-NUM_FILTES = 5
+NUM_FILTES = 7
 
 # Carregando classificador de faces e landmarks
 face_cascade = cv2.CascadeClassifier('data/lbpcascade_frontalface.xml')
@@ -49,7 +49,15 @@ while(True):
             FF.DogRightEar.put(frame, landmarks, w, h, x, y)
         elif id == 4:
             FF.Glasses.put(frame, landmarks, w, h, x, y)
-
+        elif id == 5:
+            FF.Glasses.put(frame, landmarks, w, h, x, y)
+            FF.Mustache.put(frame, landmarks, w, h, x, y)
+        elif id == 6:
+            FF.Glasses.put(frame, landmarks, w, h, x, y)
+            if(FF.mouth_open(landmarks, w, h)):
+                FF.DogTongue.put(frame, landmarks, w, h, x, y)
+            FF.Mustache.put(frame, landmarks, w, h, x, y)
+            
     # Mostrando frame
     cv2.imshow('frame',frame)
     key = cv2.waitKeyEx(1)
@@ -67,6 +75,7 @@ while(True):
         id = -2
     elif key == DOWN_ARROW:
         id = -1
+
 
 # Parando a captura e fechando janelas
 cap.release()
