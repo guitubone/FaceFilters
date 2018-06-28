@@ -5,11 +5,11 @@ import time
 import numpy as np
 from math import asin, pi
 
-LEFT_ARROW = 65361
-UP_ARROW = 65362
-DOWN_ARROW = 65364
-RIGHT_ARROW = 65363
-NUM_FILTES = 7
+LEFT_ARROW = [65361, 63234]
+UP_ARROW = [65362, 63232]
+DOWN_ARROW = [65364, 63233]
+RIGHT_ARROW = [65363, 63235]
+NUM_FILTERS = 7
 
 # Carregando classificador de faces e landmarks
 face_cascade = cv2.CascadeClassifier('data/lbpcascade_frontalface.xml')
@@ -62,17 +62,17 @@ while(True):
 	key = cv2.waitKeyEx(0)
 	if key == ord('q') or key == ord('Q'):
 		break
-	elif key == LEFT_ARROW:
+	elif key in LEFT_ARROW:
 		if id < 0:
 			id = 0
-		id = (id-1)%NUM_FILTES
-	elif key == RIGHT_ARROW:
+		id = (id-1)%NUM_FILTERS
+	elif key in RIGHT_ARROW:
 		if id < 0:
 			id = 0
-		id = (id+1)%NUM_FILTES
-	elif key == UP_ARROW:
+		id = (id+1)%NUM_FILTERS
+	elif key in UP_ARROW:
 		id = -2
-	elif key == DOWN_ARROW:
+	elif key in DOWN_ARROW:
 		id = -1
 
 cv2.destroyAllWindows()
