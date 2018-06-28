@@ -9,7 +9,7 @@ LEFT_ARROW = [65361, 63234]
 UP_ARROW = [65362, 63232]
 DOWN_ARROW = [65364, 63233]
 RIGHT_ARROW = [65363, 63235]
-NUM_FILTERS = 7
+NUM_FILTERS = 8
 
 # Carregando classificador de faces e landmarks
 face_cascade = cv2.CascadeClassifier('data/lbpcascade_frontalface.xml')
@@ -57,7 +57,9 @@ while(True):
             if(FF.mouth_open(landmarks, w, h)):
                 FF.DogTongue.put(frame, landmarks, w, h, x, y)
             FF.Mustache.put(frame, landmarks, w, h, x, y)
-            
+        elif id == 7:
+            FF.PixelSunglasses.put(frame, landmarks, w, h, x, y)
+
     # Mostrando frame
     cv2.imshow('frame',frame)
     key = cv2.waitKeyEx(1)

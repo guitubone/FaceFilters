@@ -180,3 +180,12 @@ def get_center_glasses(landmarks, x, y):
     p = Point(landmarks[TOP_NOSE_POINT, 0], landmarks[TOP_NOSE_POINT, 1])
     return p + (point_inter - point_mouth)*0.05
 Glasses = Filter('filters/glasses_2.png', get_center_glasses, 1.0, 0.6)
+
+def get_center_pixel_sunglasses(landmarks, x, y):
+    point_left = Point(landmarks[LEFT_EYE_POINT, 0], landmarks[LEFT_EYE_POINT, 1])
+    point_right = Point(landmarks[RIGHT_EYE_POINT, 0], landmarks[RIGHT_EYE_POINT, 1])
+    point_mouth = Point(landmarks[CENTER_MOUTH_POINT, 0], landmarks[CENTER_MOUTH_POINT, 1])
+    point_inter = point_mouth.intersect_line(point_left, point_right)
+    p = Point(landmarks[TOP_NOSE_POINT, 0], landmarks[TOP_NOSE_POINT, 1])
+    return p + (point_inter - point_mouth)*0.05
+PixelSunglasses = Filter('filters/pixel_sunglasses_2.png', get_center_glasses, 0.9, 0.6)
