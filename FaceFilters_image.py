@@ -26,11 +26,12 @@ for (x, y, w, h) in faces:
 #    FF.put_debug(ori_img, landmarks, x, y, w, h)
 #    FF.Mustache.put(ori_img, landmarks, w, h, x, y)
 #    FF.FlowerCrown.put(ori_img, landmarks, w, h, x, y)
-    FF.DogNose.put(ori_img, landmarks, w, h, x, y)
-    if(FF.mouth_open(landmarks, w, h)):
-        FF.DogTongue.put(ori_img, landmarks, w, h, x, y)
-    FF.DogLeftEar.put(ori_img, landmarks, w, h, x, y)
-    FF.DogRightEar.put(ori_img, landmarks, w, h, x, y)
+#    FF.DogNose.put(ori_img, landmarks, w, h, x, y)
+#    if(FF.mouth_open(landmarks, w, h)):
+#        FF.DogTongue.put(ori_img, landmarks, w, h, x, y)
+#    FF.DogLeftEar.put(ori_img, landmarks, w, h, x, y)
+#    FF.DogRightEar.put(ori_img, landmarks, w, h, x, y)
+    FF.Glasses.put(ori_img, landmarks, w, h, x, y)
 
 #    ori_img = FF.put_blur(ori_img, landmarks, x, y, w, y)
 

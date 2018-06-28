@@ -122,6 +122,7 @@ EYEBROWS_POINTS = list(range(17, 28))
 LEFT_EYE_POINT = 36
 RIGHT_EYE_POINT = 45
 CENTER_MOUTH_POINT = 63
+TOP_NOSE_POINT = 28
 UNDER_NOSE_POINT = 32
 NOSE_POINT = 30
 TOP_TONGUE_POINT = 62
@@ -170,3 +171,12 @@ def get_center_dog_right_ear(landmarks, x, y):
     p = Point(landmarks[RIGHT_EAR_POINT,0], landmarks[RIGHT_EAR_POINT, 1])
     return p + (point_inter - point_mouth)*1.0
 DogRightEar = Filter('filters/dog_right_ear.png', get_center_dog_right_ear, 0.4, 0.3)
+
+def get_center_glasses(landmarks, x, y):
+    point_left = Point(landmarks[LEFT_EYE_POINT, 0], landmarks[LEFT_EYE_POINT, 1])
+    point_right = Point(landmarks[RIGHT_EYE_POINT, 0], landmarks[RIGHT_EYE_POINT, 1])
+    point_mouth = Point(landmarks[CENTER_MOUTH_POINT, 0], landmarks[CENTER_MOUTH_POINT, 1])
+    point_inter = point_mouth.intersect_line(point_left, point_right)
+    p = Point(landmarks[TOP_NOSE_POINT, 0], landmarks[TOP_NOSE_POINT, 1])
+    return p + (point_inter - point_mouth)*0.05
+Glasses = Filter('filters/glasses_2.png', get_center_glasses, 1.0, 0.6)
