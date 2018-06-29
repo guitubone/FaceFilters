@@ -212,24 +212,24 @@ def get_center_mustache(landmarks, x, y):
     nose_point = Point(landmarks[UNDER_NOSE_POINT, 0], landmarks[UNDER_NOSE_POINT, 1])
     center = mouth_point + ((nose_point - mouth_point)*(1.0/3.0))   # Altura do bigode
     return center
-Mustache = Filter('filters/mustache.png', get_center_mustache, 0.7, 0.2)
+Mustache = Filter('../filters/mustache.png', get_center_mustache, 0.7, 0.2)
 
 def get_center_flower_crown(landmarks, x, y):
     point_left = Point(landmarks[LEFT_EYE_POINT, 0], landmarks[LEFT_EYE_POINT, 1])
     point_right = Point(landmarks[RIGHT_EYE_POINT, 0], landmarks[RIGHT_EYE_POINT, 1])
     center = point_left + ((point_right - point_left)*(1.0/2.0))
     return Point(center.x, y)
-FlowerCrown = Filter('filters/flower_crown.png', get_center_flower_crown, 1.2, 0.6)
+FlowerCrown = Filter('../filters/flower_crown.png', get_center_flower_crown, 1.2, 0.6)
 
 def get_center_dog_nose(landmarks, x, y):
     return Point(landmarks[NOSE_POINT, 0], landmarks[NOSE_POINT, 1])
-DogNose = Filter('filters/dog_nose.png', get_center_dog_nose, 0.4, 0.3)
+DogNose = Filter('../filters/dog_nose.png', get_center_dog_nose, 0.4, 0.3)
 
 def get_center_dog_tongue(landmarks, x, y):
     point_top = Point(landmarks[TOP_TONGUE_POINT, 0], landmarks[TOP_TONGUE_POINT, 1])
     point_bot = Point(landmarks[BOT_TONGUE_POINT, 0], landmarks[BOT_TONGUE_POINT, 1])
     return point_bot + (point_top - point_bot)*0.5
-DogTongue = Filter('filters/dog_tongue_2.png', get_center_dog_tongue, 0.4, 0.6)
+DogTongue = Filter('../filters/dog_tongue_2.png', get_center_dog_tongue, 0.5, 0.6)
 
 def get_center_dog_left_ear(landmarks, x, y):
     point_left = Point(landmarks[LEFT_EYE_POINT, 0], landmarks[LEFT_EYE_POINT, 1])
@@ -238,7 +238,7 @@ def get_center_dog_left_ear(landmarks, x, y):
     point_inter = point_mouth.intersect_line(point_left, point_right)
     p = Point(landmarks[LEFT_EAR_POINT,0], landmarks[LEFT_EAR_POINT, 1])
     return p + (point_inter - point_mouth)*1.0
-DogLeftEar = Filter('filters/dog_left_ear.png', get_center_dog_left_ear, 0.4, 0.3)
+DogLeftEar = Filter('../filters/dog_left_ear.png', get_center_dog_left_ear, 0.4, 0.3)
 
 def get_center_dog_right_ear(landmarks, x, y):
     point_left = Point(landmarks[LEFT_EYE_POINT, 0], landmarks[LEFT_EYE_POINT, 1])
@@ -247,7 +247,7 @@ def get_center_dog_right_ear(landmarks, x, y):
     point_inter = point_mouth.intersect_line(point_left, point_right)
     p = Point(landmarks[RIGHT_EAR_POINT,0], landmarks[RIGHT_EAR_POINT, 1])
     return p + (point_inter - point_mouth)*1.0
-DogRightEar = Filter('filters/dog_right_ear.png', get_center_dog_right_ear, 0.4, 0.3)
+DogRightEar = Filter('../filters/dog_right_ear.png', get_center_dog_right_ear, 0.4, 0.3)
 
 def get_center_glasses(landmarks, x, y):
     point_left = Point(landmarks[LEFT_EYE_POINT, 0], landmarks[LEFT_EYE_POINT, 1])
@@ -256,7 +256,7 @@ def get_center_glasses(landmarks, x, y):
     point_inter = point_mouth.intersect_line(point_left, point_right)
     p = Point(landmarks[TOP_NOSE_POINT, 0], landmarks[TOP_NOSE_POINT, 1])
     return p + (point_inter - point_mouth)*0.05
-Glasses = Filter('filters/glasses_2.png', get_center_glasses, 1.0, 0.6)
+Glasses = Filter('../filters/glasses_2.png', get_center_glasses, 1.0, 0.6)
 
 def get_center_pixel_sunglasses(landmarks, x, y):
     point_left = Point(landmarks[LEFT_EYE_POINT, 0], landmarks[LEFT_EYE_POINT, 1])
@@ -265,4 +265,4 @@ def get_center_pixel_sunglasses(landmarks, x, y):
     point_inter = point_mouth.intersect_line(point_left, point_right)
     p = Point(landmarks[TOP_NOSE_POINT, 0], landmarks[TOP_NOSE_POINT, 1])
     return p + (point_inter - point_mouth)*0.05
-PixelSunglasses = Filter('filters/pixel_sunglasses_2.png', get_center_glasses, 0.9, 0.6)
+PixelSunglasses = Filter('../filters/pixel_sunglasses_2.png', get_center_glasses, 0.9, 0.6)

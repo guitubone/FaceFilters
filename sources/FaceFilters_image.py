@@ -14,13 +14,13 @@ RIGHT_ARROW = [65363, 63235]
 NUM_FILTERS = 8
 
 # Carregando classificador de faces e landmarks
-face_cascade = cv2.CascadeClassifier('data/lbpcascade_frontalface.xml')
-predictor = dlib.shape_predictor('data/shape_predictor_68_face_landmarks.dat')
+face_cascade = cv2.CascadeClassifier('../data/lbpcascade_frontalface.xml')
+predictor = dlib.shape_predictor('../data/shape_predictor_68_face_landmarks.dat')
 
 id = 0
 while(True):
     # Leitura da imagem
-    ori_img = cv2.imread('images/group_2.jpg')
+    ori_img = cv2.imread('../images/neymar.jpg')
 
     # Transformando a imagem para escala de cinza
     gray = cv2.cvtColor(ori_img, cv2.COLOR_BGR2GRAY)

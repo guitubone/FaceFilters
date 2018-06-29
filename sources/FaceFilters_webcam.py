@@ -14,8 +14,8 @@ RIGHT_ARROW = [65363, 63235]
 NUM_FILTERS = 8
 
 # Carregando classificador de faces e landmarks
-face_cascade = cv2.CascadeClassifier('data/lbpcascade_frontalface.xml')
-predictor = dlib.shape_predictor('data/shape_predictor_68_face_landmarks.dat')
+face_cascade = cv2.CascadeClassifier('../data/lbpcascade_frontalface.xml')
+predictor = dlib.shape_predictor('../data/shape_predictor_68_face_landmarks.dat')
 
 cap = cv2.VideoCapture(0)
 
